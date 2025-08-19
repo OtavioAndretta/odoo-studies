@@ -10,7 +10,7 @@
     "data":[
         "views/partner_views.xml"
     ],
-    "installable":"True",
-    "application":"False",
-    "auto_install":"False"
+    "installable":True,
+    "application":False,
+    "auto_install":False
 }
