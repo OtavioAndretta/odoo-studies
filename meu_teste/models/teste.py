@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-class TestePagamentos(models.Models):
+class TestePagamentos(models.Model):
     _name ="meu_teste.pagamento"
     _description = "Teste de pagamento"
     
@@ -13,4 +13,4 @@ class TestePagamentos(models.Models):
     ], default = 'draft') #odo novo registro começa como "Rascunho". esse campo é usado para controlar o estado do pagamento, semelhante a workflow.
 
 
-    partner_id = fields.Many2One('res.partner', string ='Cliente') #funciona como uma chave estrangeira: cada pagamento pode ter apenas um cliente associado.
+    partner_id = fields.Many2one('res.partner', string ='Cliente') #funciona como uma chave estrangeira: cada pagamento pode ter apenas um cliente associado.

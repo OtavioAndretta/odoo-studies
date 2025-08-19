@@ -1,0 +1,14 @@
+<odoo>
+    <!--aqui ocorre o herdamento da view padrao de terceiros -->
+    <record id="view_partner_form_inherit_birthdate" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.birthdate</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- inserção do novo campo birth_date usando xpath -->
+            <xpath expr="//sheet/group" position="inside">
+                <field name="birth_date"/> <!--Nome da vari-avel que eu criei no partner.py -->
+            </xpath>
+        </field>
+    </record>
+</odoo>
