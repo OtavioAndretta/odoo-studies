@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Herdando a view de formulário do res.partner -->
+    <record id="view_partner_form_inherit_vip" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.vip</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Inserindo campos após o campo 'name' -->
+            <field name="name" position="after">
+                <group>
+                    <field name="customer_type"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+            </field>
+        </field>
+    </record>
+</odoo>
