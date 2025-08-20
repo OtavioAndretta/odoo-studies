@@ -1,4 +1,4 @@
-    <!--Esboço do res.partner que achei do github-->
+<odoo>
     <record id="view_partner_form_inherit_your_module" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.customer_type</field>
         <field name="model">res.partner</field>
@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet/group" position="inside">
                 <field name="customer_type"/>
-                </xpath>
+            </xpath>
         </field>
     </record>
 </odoo>
