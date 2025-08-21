@@ -5,11 +5,11 @@
         <field name="model">course.registration</field>
         <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree string="Inscrições">
+            <list string="Inscrições">
                 <field name="student_id"/>
                 <field name="state"/>
                 <field name="registration_date"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -35,16 +35,16 @@
     <record id="view_course_list" model="ir.ui.view">
         <field name="name">course.course.list</field>
         <field name="model">course.course</field>
-        <field name="type">list</field>
+        <field name="type">list</field> <!--No odoo 16, segundo o reddit e o gpt, usava-se tree aqui, porém no 18 foi alterado para list, entao em vez de listar usando tree, agora se escreve list apenas-->
         <field name="arch" type="xml">
-            <tree string="Cursos">
+            <list string="Cursos">
                 <field name="start_date"/>
                 <field name="duration"/>
                 <field name="end_date"/>
                 <field name="seats"/>
                 <field name="days_left"/>
                 <field name="seats_left"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -52,16 +52,16 @@
     <record id="action_course" model="ir.actions.act_window">
         <field name="name">Cursos</field>
         <field name="res_model">course.course</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_course_registration" model="ir.actions.act_window">
         <field name="name">Inscrições</field>
         <field name="res_model">course.registration</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
-    <!-- Menu -->
+     <!-- Menu -->
     <!-- Menu raiz SEM action -->
     <menuitem id="menu_course_root" name="Cursos"/>
 
@@ -69,3 +69,5 @@
     <menuitem id="menu_course" name="Lista de Cursos" parent="menu_course_root" action="action_course"/>
     <menuitem id="menu_registration" name="Inscrições" parent="menu_course_root" action="action_course_registration"/>
 </odoo>
+
+<!--Quando criar um menu raiz, ele nao deve conter action, apenas seu submenus, estava errando nisso e assim não listava o menu raiz nunca, pois ele é o raiz, ele não deve ter action-->

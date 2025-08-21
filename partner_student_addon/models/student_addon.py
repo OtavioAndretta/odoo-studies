@@ -60,12 +60,12 @@ class CourseStudents(models.Model):
     start_date = fields.Date("Data de início")
     duration = fields.Integer(string='Duração em dias')
     end_date = fields.Date("Data de término", compute='_compute_end_date')
-    seats = fields.Integer(string="Adicionar vagas disponíveis")
+    seats = fields.Integer(string="Vagas disponíveis")
 
     days_left = fields.Integer(string='Dias restantes de curso', compute='_compute_days_left_course', store=True)
     seats_left = fields.Integer(string='Vagas restantes', compute='_compute_seats_left', store=True)
 
-    active = fields.Boolean(string='Estado do curso')
+    active = fields.Boolean(string='Curso ativo', default=True)
     students_ids = fields.One2many('course.registration', 'course_id', string='Inscritos')
 
     
