@@ -7,6 +7,7 @@
     "category": "Training",
     "depends": ["base","contacts"],
     "data": [
+        'security/ir.model.access.csv',
         'views/partner_student.xml',
     ],
     "installable": True,
