@@ -1,0 +1,79 @@
+<odoo>
+
+    <record id='views_library_book_tree' model='ir.ui.view'>
+        <field name='name'>library.book.tree</field>
+        <field name='model'>library.book</field>
+        <field name='type'>list</field>
+        <field name='arch' type='xml'>
+            <list string="Livros">
+                <field name="name"/>
+                <field name="author"/>
+                <field name="codigo_isbn"/>
+                <field name="total_copies"/>
+                <field name="available_copies"/>
+            </list>
+        </field>
+    </record>
+
+            <record id='views_library_book_form' model='ir.ui.view'> <!--Outro record para o form, separar pois assim organiza melhor-->
+                <field name='name'>library.book.form</field>
+                <field name='model'>library.book</field>
+                <field name='arch' type='xml'>
+                    <form string='Livro'>
+                        <sheet>
+                            <group> <!--O form é onde fica mais detalhado as informacoes, e o list é usado em outro lugar da interface, de forma mais suscinta, por isso tem 2 fields pra cada um -->
+
+                            <group string ='Informações Básicas'>
+                                <field name="name"/>
+                                <field name="author"/>
+                                <field name="codigo_isbn"/>
+                            </group>
+
+                            <group string='Estoque'>
+                                <field name="total_copies"/>
+                                <field name="available_copies"/>
+                                <field name="active"/>
+                            </group>
+
+                            <group string='Capa do Livro'>
+                                <field name="cover_image" widget='image' class='oe_avatar'/>
+                            </group>
+                            
+                         </group>
+                    </sheet>
+                </form>
+                </field>
+            </record>
+        
+
+        <!--Record para search, ou seja, listar so livros disponiveis ou inativos-->
+
+        <record id='views_library_book_search' model='ir.ui.view'>
+            <field name='name'>library.book.search </field>
+            <field name='model'>library.book</field>
+            <field name='arch' type='xml'>
+                <search string='Pesquisar Livros'>
+                    <field name='name'/>
+                    <field name='author'/>
+
+                    <filter name='available' string='Disponível' domain ="[('available_copies','>',0)]" /> <!--Filtro para mostrar apenas livros disponiveis-->
+                   <filter name ='unavailable' string='Indisponível' domain ="[('available_copies','=',0)]" /> <!--Filtro para mostrar apenas livros indisponiveis-->
+                   <filter name='active' string='Ativo' domain = "[('active','=',True)]"/> <!--Filtro para mostrar apenas livros ativos-->
+                   <filter name='inactive' string='Inativo' domain ="[('active','=',False)]"/> <!--Filtro para mostrar apenas livros inativos-->
+                </search>
+            </field>
+        </record>   
+        <!--Aqui será as actions, ou seja, o que acontecerá quando eu clicar em um botão-->
+        <record id='action_library_book' model='ir.actions.act_window'>
+            <field name='name'>Livros</field>
+            <field name='res_model'>library.book</field> <!--aqui eu deifini qual modelo será mostrado, que é o library.book, ou seja, os livros-->
+            <field name='view_mode'>list,form</field> <!--Aqui é onde se define a ordem de exibição das views, tree(que agora é list) e form -->
+            <field name='search_view_id' ref='views_library_book_search'/>
+        </record>
+
+        <!--Menu, primeiro um raiz e sem action se nao ele não irá exibir no odoo-->
+        <menuitem id='menu_library_root' name='Biblioteca'/>
+
+        <menuitem id='menu_library_book' name='Livros' parent='menu_library_root' action='action_library_book'/> <!--Aqui eu defino o submenu, que é o que irá aparecer no menu da biblioteca, e aqui eu coloco a action que eu criei acima-->
+
+</odoo>
