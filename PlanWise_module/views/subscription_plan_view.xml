@@ -1,0 +1,136 @@
+<odoo>
+
+<!--record da tree, ou list-->
+    <record id ='view_subscription_plan_tree' model ='ir.ui.view'>
+        <field name ='name'> subscription.plan.tree </field>
+        <field name ='model'> subscription.plan </field>
+        <field name ='type'> list</field>
+        <field name ='arch' type ='xml'>
+            <list string ='Planos'>
+                <field name ='plano'/>
+                <field name ='code'/>
+                <field name ='description'/>
+                <field name ='price'/>
+                <field name ='available_from'/>
+                <field name ='duration'/>
+                <field name ='assinaturas_remanescentes'/>
+                <field name ='end_date'/>
+            </list>
+        </field>
+    </record>
+
+ <!--record do form-->
+        <record id ='view_subscription_plan_form' model ='ir.ui.view'>
+            <field name='name'>subscription.plan.form </field>
+            <field name='model'>subscription.plan</field>
+            <field name='arch' type='xml'>
+                <form string ='Plano'>
+                    <sheet>
+                    
+                        <group string ='Informações básicas'>
+                            <field name ='plano'/>
+                            <field name ='code'/>
+                            <field name ='description'/>
+                        </group>
+
+                        
+                        <group string ='Financeiro'>
+                            <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name ='billing_cycle'/>
+                        </group>
+
+                        <group string ='Datas'>
+                            <field name ='trial_days'/>
+                            <field name ='available_from'/>
+                            <field name ='end_date' readonly = '1'/>
+                        </group>
+                        
+                        <group string ='Renovações e duração'>
+                            <field name ='auto_renew'/>
+                            <field name ='assinaturas'/>
+                            <field name ='assinaturas_remanescentes' readonly ='1'/>
+                            <field name ='duration'/>
+                    
+                        </group>
+                    </sheet>
+                </form>
+        </record>
+
+    <!--Metodo de barra de busca dos planos-->
+    <record id ='view_subscription_plan_search' model ='ir.ui.view'>
+        <field name ='name'> subscription.plan.search </field>
+        <field name ='model'> subscription.plan </field>
+        <field name ='arch' type = 'xml'>
+            <search string ='Pesquisar planos'>
+                <field name ='plano'/>
+                <field name ='code'/>
+
+                <filter name ='billing_filter_monthly' string ='Mensal' domain = "[('billing_cycle','=', 'monthly')]"/>
+
+                <filter name ='billing_filter_quarterly' string ='Trimestralmente' domain = "[('billing_cycle','=', 'quarterly')]"/>
+
+                <filter name ='billing_filter_yearly' string ='Anualmente' domain = "[('billing_cycle','=', 'yearly')]"/>
+            </search>
+        </field>
+    </record>
+
+<!--agora o record das action e depois o menu raiz PLANOS-->
+
+    <record id ='action_subscription.plan' model ='ir.actions.act_window'>
+        <field name ='name'>Planos</field>
+        <field name ='res_model'>subscription.plan</field>
+        <field name ='view_mode'>list,form</field>
+        <field name ='search_view_id' ref ='view_subscription_plan_search'/>
+    </record>
+
+    <menuitem id='menu_subscription_root' name ='Gerenciar Planos'/>
+
+
+    <menuitem id='menu_subscription_root_planos' name ='Planos' parent ='menu_subscription_root'/>
+
+
+               
+               
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>
