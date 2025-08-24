@@ -61,7 +61,7 @@
         <field name ='name'> subscription.plan.search </field>
         <field name ='model'> subscription.plan </field>
         <field name ='arch' type = 'xml'>
-            <search string ='Pesquisar planos'>
+            <search string ='Pesquisar e filtrar planos'>
                 <field name ='plano'/>
                 <field name ='code'/>
 
@@ -76,61 +76,20 @@
 
 <!--agora o record das action e depois o menu raiz PLANOS-->
 
-    <record id ='action_subscription.plan' model ='ir.actions.act_window'>
+    <record id ='action_subscription_plan' model ='ir.actions.act_window'>
         <field name ='name'>Planos</field>
         <field name ='res_model'>subscription.plan</field>
         <field name ='view_mode'>list,form</field>
         <field name ='search_view_id' ref ='view_subscription_plan_search'/>
+         <field name='view_ids' eval="[
+            (0,0,{'view_mode':'list','view_id': ref('view_subscription_plan_tree')}),
+            (0,0,{'view_mode':'form','view_id': ref('view_subscription_plan_form')})
+        ]"/>  <!--Recomendação do gpt colcoar isto para apontar pro id das minhas views para evitar conflitos futuros caso eu modifique o modulo, irei estudar mais sobre-->
     </record>
 
-    <menuitem id='menu_subscription_root' name ='Gerenciar Planos'/>
+    <menuitem id='menu_subscription_root' name ='Planos'/>
 
 
-    <menuitem id='menu_subscription_root_planos' name ='Planos' parent ='menu_subscription_root'/>
-
-
-               
-               
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <menuitem id='menu_subscription_root_planos' name ='Gerenciar Planos' parent ='menu_subscription_root'/>
 
 </odoo>

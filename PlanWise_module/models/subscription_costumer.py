@@ -32,7 +32,7 @@ class SubscriptionCustumer(models.Model):
     payment_status = fields.Selection([
         ('paid','Pago'),
         ('pending','Em andamento'),
-        ('failed','Pagamento falhou')
+        ('failed','Pagamento falhou'),
     ], default = 'pending', string='Status do pagamento')
 
     payment_method = fields.Selection([

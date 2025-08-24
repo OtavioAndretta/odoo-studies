@@ -1,0 +1,88 @@
+<odoo>
+    <!-- Tree/List View -->
+    <record id='view_subscription_costumer_tree' model='ir.ui.view'>
+        <field name='name'>subscription.costumer.tree</field>
+        <field name='model'>subscription.costumer</field>
+        <field name='type'>list</field>
+        <field name='arch' type='xml'>
+            <list string='Clientes'>
+                <field name='partner_id'/>
+                <field name='email_partner'/>
+                <field name='phone'/>
+                <field name='start_date'/>
+                <field name='duration'/>
+                <field name='end_date'/>
+                <field name='is_active'/>
+                <field name='payment_status'/>
+                <field name='next_due_date'/>
+                <field name='payment_method'/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id='view_subscription_costumer_form' model='ir.ui.view'>
+        <field name='name'>subscription.costumer.form</field>
+        <field name='model'>subscription.costumer</field>
+        <field name='arch' type='xml'>
+            <form string='Cliente'>
+                <sheet>
+                    <group string='Dados básicos'>
+                        <field name='partner_id'/>
+                        <field name='email_partner'/>
+                        <field name='phone'/>
+                    </group>
+                    <group string='Plano e datas'>
+                        <field name='plan_id'/>
+                        <field name='start_date'/>
+                        <field name='duration'/>
+                        <field name='end_date' readonly='1'/>
+                    </group>
+                    <group string='Status'>
+                        <field name='is_active'/>
+                        <field name='auto_renew'/>
+                    </group>
+                    <group string='Pagamentos'>
+                        <field name='last_payment_date'/>
+                        <field name='next_due_date'/>
+                        <field name='payment_status'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id='view_subscription_costumer_search' model='ir.ui.view'>
+        <field name='name'>subscription.costumer.search</field>
+        <field name='model'>subscription.costumer</field>
+        <field name='arch' type='xml'>
+            <search string='Pesquisar e filtrar clientes'>
+                <field name='partner_id'/>
+                <field name='email_partner'/>
+                <field name='phone'/>
+                <filter name='payment_status_paid' string='Pago' domain="[('payment_status','=','paid')]"/>
+                <filter name='payment_status_pending' string='Em andamento' domain="[('payment_status','=','pending')]"/>
+                <filter name='payment_status_failed' string='Pagamento falhou' domain="[('payment_status','=','failed')]"/>
+                <filter name='payment_method_boleto' string='Boleto' domain="[('payment_method','=','boleto')]"/>
+                <filter name='payment_method_card' string='Cartão' domain="[('payment_method','=','card')]"/>
+                <filter name='payment_method_pix' string='Pix' domain="[('payment_method','=','pix')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action com views explícitas -->
+    <record id='action_subscription_costumer' model='ir.actions.act_window'>
+        <field name='name'>Clientes</field>
+        <field name='res_model'>subscription.costumer</field>
+        <field name='view_mode'>list,form</field>
+        <field name='view_ids' eval="[
+            (0,0,{'view_mode':'list','view_id': ref('view_subscription_costumer_tree')}),
+            (0,0,{'view_mode':'form','view_id': ref('view_subscription_costumer_form')})
+        ]"/>
+        <field name='search_view_id' ref='view_subscription_costumer_search'/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id='menu_subscription_root_costumer' name='Clientes' parent='menu_subscription_root'/>
+</odoo>
