@@ -82,7 +82,6 @@
         ]"/>
         <field name='search_view_id' ref='view_subscription_costumer_search'/>
     </record>
-
     <!-- Menu -->
     <menuitem id='menu_subscription_root_costumer' name='Clientes' parent='menu_subscription_root'/>
 </odoo>
