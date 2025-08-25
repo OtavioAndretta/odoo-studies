@@ -1,0 +1,110 @@
+<odoo>
+    <record id ='view_subscription_invoice_tree' model ='ir.ui.view'>
+        <field name ='name'>subscription.invoice.tree </field>
+        <field name ='model'>subscription.invoice</field>
+        <field name ='type'>list</field>
+        <field name ='arch' type ='xml'>
+            <list string ='Faturas'>
+
+
+                <field name ='customer_id'/>
+                <field name ='partner_id'/>
+                <field name ='emission_date'/>
+                <field name ='expire_date'/>
+                <field name ='payment_date'/>
+                <field name ='covered_invoice_time'/>
+                <field name ='plan_id'/>
+                <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name ='discount_percent'/>
+                <field name ='price_with_discount'/>
+                <field name ='state'/>
+                <field name ='payment_method'/>
+                <field name ='description_invoice'/>
+                <field name ='invoice_number'/>
+            </list>
+        </field>
+    </record>
+
+
+
+
+    <record id ='view_subscription_invoice_form' model ='ir.ui.view'>
+        <field name ='name'>subscription.invoice.form</field>
+        <field name ='model'>subscription.invoice</field>
+        <field name ='arch' type ='xml'>
+                <form string='Fatura'>
+                    <sheet>
+                        <group string ='Dados básicos'>
+                            <field name='customer_id'/>
+                            <field name='partner_id'/> 
+                            <field name='plan_id'/>
+                         </group>
+
+                        <group string ='Datas'>
+                            <field name='emission_date'/>
+                            <field name='expire_date' readonly ='1'/>
+                            <field name='payment_date'/>
+                            <field name='covered_invoice_time'/>
+                        </group>
+
+                        <group string ='Preços e descontos + state'>
+                            <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name='discount_percent'/>
+                            <field name='price_with_discount'/>
+                            <field name='state'/>
+                            <field name='payment_method'/>
+                        </group>
+
+                        <group string ='Dados faturas'>
+                            <field name='description_invoice'/>
+                            <field name='plan_code_for_invoice' readonly ='1'/>
+                            <field name='invoice_number'/>
+                        </group>
+                    
+                        <footer>
+                             <button name="action_generate_invoice"
+                                string="Gerar Fatura"
+                                type="object"
+                                class="btn-primary"/>
+                        </footer>
+
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+
+    <record id ='view_subscription_invoice_search' model ='ir.ui.view'>
+            <field name ='name'>subscription.invoice.search</field>
+            <field name ='model'>subscription.invoice</field>
+            <field name ='arch' type ='xml'>
+                <search string ='Pesquisar e filtrar faturas'>
+                    <field name ='customer_id'/>
+                    <field name ='invoice_number'/>
+
+                    <filter name ='state_filter_draft' string ='Rascunho' domain ="[('state','=','draft')]"/>
+                    <filter name ='state_filter_sent' string ='Enviada' domain ="[('state','=','sent')]"/>
+                    <filter name ='state_filter_paid' string ='Pago' domain ="[('state','=','paid')]"/>
+                    <filter name ='state_filter_overdue' string ='Atrasado' domain ="[('state','=','overdue')]"/>
+                    <filter name ='state_filter_cancelled' string ='Cancelado' domain ="[('state','=','cancelled')]"/>
+                </search>
+            </field>
+    </record>
+
+
+
+    <record id ='action_subscription_invoice' model ='ir.actions.act_window'>
+
+                <field name ='name'>Faturas</field>
+                <field name ='res_model'>subscription.invoice</field>
+                <field name ='view_mode'>list,form</field>
+                <field name ='search_view_id' ref='view_subscription_invoice_search'/>
+    </record>
+
+      <!-- Submenu Faturas -->
+    <menuitem id="menu_subscription_invoice"
+              name="Faturas"
+              parent="menu_subscription_root"
+              sequence="30"
+              action="action_subscription_invoice"/>        
+</odoo>

@@ -46,6 +46,7 @@
                         <field name='last_payment_date'/>
                         <field name='next_due_date'/>
                         <field name='payment_status'/>
+                        <field name='payment_method'/>
                     </group>
                 </sheet>
             </form>
@@ -71,17 +72,19 @@
         </field>
     </record>
 
-    <!-- Action com views explícitas -->
     <record id='action_subscription_costumer' model='ir.actions.act_window'>
         <field name='name'>Clientes</field>
         <field name='res_model'>subscription.costumer</field>
         <field name='view_mode'>list,form</field>
-        <field name='view_ids' eval="[
-            (0,0,{'view_mode':'list','view_id': ref('view_subscription_costumer_tree')}),
-            (0,0,{'view_mode':'form','view_id': ref('view_subscription_costumer_form')})
-        ]"/>
         <field name='search_view_id' ref='view_subscription_costumer_search'/>
     </record>
-    <!-- Menu -->
-    <menuitem id='menu_subscription_root_costumer' name='Clientes' parent='menu_subscription_root'/>
+
+
+
+     <!-- Submenu dos clientes -->
+     <menuitem id="menu_subscription_costumer"
+              name="Clientes"
+              parent="menu_subscription_root"
+              sequence="20"
+              action="action_subscription_costumer"/>
 </odoo>

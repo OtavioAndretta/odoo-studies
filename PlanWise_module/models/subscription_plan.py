@@ -9,20 +9,21 @@ class SubscriptionPlan(models.Model):
     _name ='subscription.plan'
     _description ='Definir planos e preços'
  # detalhes do plano
+    name = fields.Char(string='Nome do Plano', related='plano', store=True)
     plano = fields.Char(string ='Nome do plano', required = True)
-    code = fields.Integer(string ='Código do plano', required = True)
-    description = fields.Char(string='Descrição', required = True)
+    code = fields.Char(string ='Código do plano', required = True)
+    description = fields.Char(string='Descrição')
 
     #Precificação agora
 
     price = fields.Monetary(string ='Preço', required = True, currency_field ='currency_id')
-    currency_id = fields.Many2one('res.currency', string ='Moeda', required = True)
+    currency_id = fields.Many2one('res.currency', string ='Moeda')
 
     billing_cycle = fields.Selection([
         ('monthly','Mensal'),
         ('quarterly','Trimestralmente'),
         ('yearly','Anualmente'),
-    ], default ='monthly', string='Ciclo de Cobrança')
+    ], default ='monthly', string='Ciclo de Cobrança', store = True)
 
     trial_days = fields.Integer(string ='Dias de teste gratuito', required = True, default = 7)
 
@@ -33,7 +34,7 @@ class SubscriptionPlan(models.Model):
     end_date = fields.Date(string='Data final', compute = '_compute_remaining_days')
     auto_renew = fields.Boolean(string='Renovação automática', default = True)
 
-    product_id = fields.Many2one('product.product', string='Produto Vinculado', required = True)
+    product_id = fields.Many2one('product.product', string='Produto Vinculado')
     payment_provider = fields.Selection([
         ('stripe','Stripe'),
         ('mercado_pago','Mercado Pago'),

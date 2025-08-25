@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_subscription_costumer_user,subscription.costumer user,model_subscription_costumer,base.group_user,1,1,1,1
+access_subscription_plan_user,subscription.plan user,model_subscription_plan,base.group_user,1,1,1,1
+access_subscription_invoice_user,subscription.invoice user,model_subscription_invoice,base.group_user,1,1,1,1

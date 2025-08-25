@@ -2,9 +2,9 @@
 
 <!--record da tree, ou list-->
     <record id ='view_subscription_plan_tree' model ='ir.ui.view'>
-        <field name ='name'> subscription.plan.tree </field>
-        <field name ='model'> subscription.plan </field>
-        <field name ='type'> list</field>
+        <field name ='name'>subscription.plan.tree</field>
+        <field name ='model'>subscription.plan</field>
+        <field name ='type'>list</field>
         <field name ='arch' type ='xml'>
             <list string ='Planos'>
                 <field name ='plano'/>
@@ -15,6 +15,8 @@
                 <field name ='duration'/>
                 <field name ='assinaturas_remanescentes'/>
                 <field name ='end_date'/>
+                <field name ='is_active'/>
+                <field name ='payment_provider'/>
             </list>
         </field>
     </record>
@@ -31,35 +33,42 @@
                             <field name ='plano'/>
                             <field name ='code'/>
                             <field name ='description'/>
+                            <field name="product_id" readonly ="1"/>
+
                         </group>
 
                         
                         <group string ='Financeiro'>
                             <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name ='billing_cycle'/>
+                            <field name ='currency_id'/>
+                            <field name ='payment_provider'/>
                         </group>
 
                         <group string ='Datas'>
                             <field name ='trial_days'/>
                             <field name ='available_from'/>
+                             <field name ='duration'/>
                             <field name ='end_date' readonly = '1'/>
                         </group>
                         
                         <group string ='Renovações e duração'>
                             <field name ='auto_renew'/>
+                            <field name ='is_active'/>
                             <field name ='assinaturas'/>
                             <field name ='assinaturas_remanescentes' readonly ='1'/>
-                            <field name ='duration'/>
+                            
                     
                         </group>
                     </sheet>
                 </form>
+            </field>
         </record>
 
     <!--Metodo de barra de busca dos planos-->
     <record id ='view_subscription_plan_search' model ='ir.ui.view'>
-        <field name ='name'> subscription.plan.search </field>
-        <field name ='model'> subscription.plan </field>
+        <field name ='name'>subscription.plan.search</field>
+        <field name ='model'>subscription.plan</field>
         <field name ='arch' type = 'xml'>
             <search string ='Pesquisar e filtrar planos'>
                 <field name ='plano'/>
@@ -81,15 +90,18 @@
         <field name ='res_model'>subscription.plan</field>
         <field name ='view_mode'>list,form</field>
         <field name ='search_view_id' ref ='view_subscription_plan_search'/>
-         <field name='view_ids' eval="[
-            (0,0,{'view_mode':'list','view_id': ref('view_subscription_plan_tree')}),
-            (0,0,{'view_mode':'form','view_id': ref('view_subscription_plan_form')})
-        ]"/>  <!--Recomendação do gpt colcoar isto para apontar pro id das minhas views para evitar conflitos futuros caso eu modifique o modulo, irei estudar mais sobre-->
     </record>
 
-    <menuitem id='menu_subscription_root' name ='Planos'/>
+  <!-- Root menu -->
+   <menuitem id="menu_subscription_root"
+              name="Assinaturas"
+              sequence="10"/>
 
-
-    <menuitem id='menu_subscription_root_planos' name ='Gerenciar Planos' parent ='menu_subscription_root'/>
+    <!-- Submenu Planos -->
+    <menuitem id="menu_subscription_plan"
+              name="Planos"
+              parent="menu_subscription_root"
+              sequence="40"
+              action="action_subscription_plan"/>
 
 </odoo>

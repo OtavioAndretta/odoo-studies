@@ -12,11 +12,11 @@ class SubscriptionCustumer(models.Model):
 
     partner_id =fields.Many2one('res.partner', string ='Usuário', required = True)
     email_partner = fields.Char(related='partner_id.email', store=True)
-    phone = fields.Char(related='partner_id.phone', store=True)
+    phone = fields.Char(related='partner_id.phone', store=True) #se o partner nao tem numero, nao mostra, no futuro adicionar um compute field.
 
     # info do plano
 
-    plan_id = fields.Many2one('subscription.plan',string ='Plano Assinado', required = True) #se relaciona com os planos criados no subscription_plan
+    plan_id = fields.Many2one('subscription.plan', string='Plano', store=True)
     start_date = fields.Date(string ='Data de início do plano', required = True)
     duration = fields.Integer(string='Duração personalizada', required=False)
     end_date = fields.Date(string ='Data de término do plano', compute ='_compute_end_date')
@@ -27,7 +27,7 @@ class SubscriptionCustumer(models.Model):
 
     #cobranças e pagamentos
 
-    last_payment_date = fields.Date(string ='Data pagamento anterior', required = True)
+    last_payment_date = fields.Date(string ='Data pagamento anterior')
     next_due_date = fields.Date(string ='Próximo pagamento', compute ='_compute_next_due_date')
     payment_status = fields.Selection([
         ('paid','Pago'),
@@ -39,16 +39,24 @@ class SubscriptionCustumer(models.Model):
         ('boleto','Boleto'),
         ('card','Cartão'),
         ('pix','Pix')
-    ], default =False, string ='Método de pagamento')
+    ], default = 'pix', string ='Método de pagamento')
 
     #validacoes no banco
 
-    _sql_constraints =[
-        ('UniqueEmail','unique(email_partner)','Email já cadastrado'),
-        ('UniquePhone','unique(phone)','Telefone já cadastrado')
-    ]
+    _sql_constraints = [
+    ('UniquePartner','unique(partner_id)','Esse cliente já possui assinatura registrada')
+]
 
 
+
+
+
+
+    
+    @api.onchange('plan_id')
+    def _onchange_plan_id(self):
+        if self.plan_id:
+            self.duration = self.plan_id.duration
 
     @api.depends('start_date','duration')
     def _compute_end_date(self):
@@ -64,27 +72,25 @@ class SubscriptionCustumer(models.Model):
             if record.plan_id and record.duration > record.plan_id.duration:
                 raise ValidationError ('A duração da assinatura não pode exceder a duração do plano')
             
-    @api.depends('last_payment_date','plan_id.billing_cycle')
+    @api.depends('last_payment_date', 'plan_id')
     def _compute_next_due_date(self):
-        for record in self:
-            if record.last_payment_date and record.plan_id.billing_cycle:
-                cycle = record.plan_id.billing_cycle
-                if cycle =='monthly':
-                    record.next_due_date = record.last_payment_date + timedelta(days = 30)
-                elif cycle =='quarterly':
-                    record.next_due_date = record.last_payment_date + timedelta(days = 90)
-                elif cycle =='yearly':
-                    record.next_due_date = record.last_payment_date + timedelta(days = 365)
-                else:
-                    record.next_due_date = False
+       for record in self:
+           if record.last_payment_date and record.plan_id.exists():
+               cycle = getattr(record.plan_id, 'billing_cycle', False)
+               if cycle == 'monthly':
+                   record.next_due_date = record.last_payment_date + timedelta(days=30)
+               elif cycle == 'quarterly':
+                   record.next_due_date = record.last_payment_date + timedelta(days=90)
+               elif cycle == 'yearly':
+                   record.next_due_date = record.last_payment_date + timedelta(days=365)
+               else:
+                   record.next_due_date = False
+           else:
+               record.next_due_date = False
+
+
             
-    @api.onchange('plan_id')
-    def _onchange_plan_id(self):
-        if self.plan_id:
-            self.duration = self.plan_id.duration
-
-
-
+   
     @api.constrains('start_date','end_date')
     def _check_dates(self):
         for record in self:
@@ -97,7 +103,7 @@ class SubscriptionCustumer(models.Model):
         for record in self:
             if record.plan_id.assinaturas_remanescentes <= 0:
                 raise ValidationError(f'Sem vagas para o plano {record.plan_id.plano}')
-
+            
       
 
 
