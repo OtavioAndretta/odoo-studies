@@ -33,7 +33,15 @@
         <field name ='model'>subscription.invoice</field>
         <field name ='arch' type ='xml'>
                 <form string='Fatura'>
+                        <header>
+                                <button name ='action_generate_invoice'
+                                        string ='Gerar fatura'
+                                        type ='object'
+                                        class ='btn btn-primary'/>
+                        </header>
+
                     <sheet>
+
                         <group string ='Dados básicos'>
                             <field name='customer_id'/>
                             <field name='partner_id'/> 
@@ -61,13 +69,6 @@
                             <field name='invoice_number'/>
                         </group>
                     
-                        <footer>
-                             <button name="action_generate_invoice"
-                                string="Gerar Fatura"
-                                type="object"
-                                class="btn-primary"/>
-                        </footer>
-
                     </sheet>
                 </form>
             </field>
@@ -105,6 +106,6 @@
     <menuitem id="menu_subscription_invoice"
               name="Faturas"
               parent="menu_subscription_root"
-              sequence="30"
+              sequence="40"
               action="action_subscription_invoice"/>        
 </odoo>

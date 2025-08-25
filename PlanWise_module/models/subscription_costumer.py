@@ -9,8 +9,7 @@ class SubscriptionCustumer(models.Model):
     _description ='Vinculo de clientes ao plano'
     
     #info de cliente
-
-    partner_id =fields.Many2one('res.partner', string ='Usuário', required = True)
+    partner_id =fields.Many2one('res.partner',string ='Usuário', required = True)
     email_partner = fields.Char(related='partner_id.email', store=True)
     phone = fields.Char(related='partner_id.phone', store=True) #se o partner nao tem numero, nao mostra, no futuro adicionar um compute field.
 
@@ -103,6 +102,16 @@ class SubscriptionCustumer(models.Model):
         for record in self:
             if record.plan_id.assinaturas_remanescentes <= 0:
                 raise ValidationError(f'Sem vagas para o plano {record.plan_id.plano}')
+            
+    
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.partner_id.name if record.partner_id else f"Cliente {record.id}"
+            result.append((record.id, name))
+        return result
+
             
       
 

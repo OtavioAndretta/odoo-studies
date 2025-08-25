@@ -85,6 +85,6 @@
      <menuitem id="menu_subscription_costumer"
               name="Clientes"
               parent="menu_subscription_root"
-              sequence="20"
+              sequence="30"
               action="action_subscription_costumer"/>
 </odoo>

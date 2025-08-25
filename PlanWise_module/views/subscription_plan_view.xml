@@ -101,7 +101,7 @@
     <menuitem id="menu_subscription_plan"
               name="Planos"
               parent="menu_subscription_root"
-              sequence="40"
+              sequence="20"
               action="action_subscription_plan"/>
 
 </odoo>

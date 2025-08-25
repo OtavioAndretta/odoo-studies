@@ -104,4 +104,15 @@ class SubscriptionInvoice(models.Model):
     def _onchange_customer_id(self):
         if self.customer_id:
             self.plan_id = self.customer_id.plan_id
-  
+
+    
+
+    def name_get(self):
+        result = []
+        for record in self:
+           partner_name = record.partner_id.name or "Cliente desconhecido"
+           invoice_number = record.invoice_number or "Sem número"
+           state_label = dict(self._fields['state'].selection).get(record.state, "Desconhecido")
+           name = f"{partner_name} - {invoice_number} [{state_label}]"
+           result.append((record.id, name))
+        return result
