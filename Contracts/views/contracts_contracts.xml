@@ -1,0 +1,111 @@
+<odoo>
+    <record id="view_contract_contract_tree" model="ir.ui.view">
+        <field name="name">contract.contract.tree</field>
+        <field name="model">contract.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Contratos">
+                <field name="name"/>
+                <field name="cliente"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="renewal_period"/>
+                <field name="amount_total"/>
+                <field name="type_contract"/>
+                <field name="state"/>
+                <field name="auto_renew"/>
+                <field name="is_expired"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_contract_contract_form" model="ir.ui.view">
+        <field name="name">contract.contract.form</field>
+        <field name="model">contract.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contrato">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirmar" class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_cancel" type="object" string="Cancelar" class="btn-danger" attrs="{'invisible': [('state', '=', 'cancelled')]}"/>
+                    <button name="action_renew" type="object" string="Renovar" class="btn-secondary" attrs="{'invisible': [('state', 'not in', ['active', 'expired'])]}"/>
+                    <button name="action_set_draft" type="object" string="Voltar para Rascunho" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,expired,renewed,cancelled"/>
+                </header>
+                <sheet>
+                    <group string ='Informações básicas'>
+                        <field name="name"/>
+                        <field name="cliente"/>
+                        <field name="type_contract"/>
+                    </group>
+                    <group string ='Datas'>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="renewal_period"/>
+                        <field name="auto_renew"/>
+                    </group>
+                    <group string='IDs'>
+                        <field name="previous_contract_id" readonly ='1'/>
+                    </group>
+                    <group string ='Valores/estado e tipo do contrato'>
+                        <field name="amount_total"/>
+                        <field name="currency_id"/>
+                        <field name="is_expired" readonly="1"/>
+                        <field name="state"/>
+                    </group>
+                    <group string ='Observações'>
+                        <field name="observations"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id ='view_contract_contract_search' model ='ir.ui.view'>
+        <field name ='name'>contract.contract.search</field>
+        <field name ='model'>contract.contract</field>
+        <field name ='arch' type ='xml'>
+            <search string ='Pesquisar e filtrar contratos'>
+                <field name ='name'>
+                <field name ='cliente'>
+
+            <group expand="0" string="Tipo de contrato">
+                    <filter name="contract_type_prestacao" string="Prestação" domain="[('type_contract','=','prestacao')]"/>
+                    <filter name="contract_type_aluguel" string="Aluguel" domain="[('type_contract','=','aluguel')]"/>
+                    <filter name="contract_type_manutencao" string="Manutenção" domain="[('type_contract','=','manutencao')]"/>
+            </group>
+
+            <group expand="0" string="Status">
+                    <filter name="contract_state_draft" string="Rascunho" domain="[('state','=','draft')]"/>
+                    <filter name="contract_state_active" string="Ativo" domain="[('state','=','active')]"/>
+                    <filter name="contract_state_expired" string="Expirado" domain="[('state','=','expired')]"/>
+                    <filter name="contract_state_renewed" string="Renovado" domain="[('state','=','renewed')]"/>
+                    <filter name="contract_state_cancelled" string="Cancelado" domain="[('state','=','cancelled')]"/>
+            </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id ='action_contract_contract' model ='ir.actions.act_window'>
+        <field name ='name'>Contratos</field>
+        <field name ='res_model'>contract.contract</field>
+        <field name ='view_mode'>list,form</field>
+        <field name ='search_view_id' ref='view_contract_contract_search'/>
+    </record>
+
+    <menuitem id ='menu_contract_root' name ='Contratos' sequence ='10'/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>
