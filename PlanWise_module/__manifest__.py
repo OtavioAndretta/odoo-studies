@@ -6,12 +6,15 @@
     'version':'1.0',
     'depends':['base','contacts'],
     'category':'Subscriptions',
-    'data':[
-        'security/ir.model.access.csv',
-        'views/subscription_plan_view.xml',
-        'views/subscription_costumer_view.xml',
-        'views/subscription_invoice_view.xml',
-    ],
+    'data': [
+        
+    'security/ir.model.access.csv',
+    'views/subscription_plan_view.xml',
+    'views/subscription_costumer_view.xml',
+    'views/subscription_invoice_view.xml',
+    'report/subscription_invoice_report.xml',
+],
+
 
 
 

@@ -6,7 +6,7 @@
         <field name ='arch' type ='xml'>
             <list string ='Faturas'>
 
-
+                <field name="name"/>
                 <field name ='customer_id'/>
                 <field name ='partner_id'/>
                 <field name ='emission_date'/>
@@ -38,11 +38,18 @@
                                         string ='Gerar fatura'
                                         type ='object'
                                         class ='btn btn-primary'/>
+
+                                <button name="print_report_subscription_invoice"
+                                        string="Imprimir Fatura"
+                                         type="object"
+                                        class="btn-primary"/> 
+
                         </header>
 
                     <sheet>
 
                         <group string ='Dados básicos'>
+                            <field name="name"/>
                             <field name='customer_id'/>
                             <field name='partner_id'/> 
                             <field name='plan_id'/>

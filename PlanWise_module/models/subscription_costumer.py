@@ -9,6 +9,7 @@ class SubscriptionCustumer(models.Model):
     _description ='Vinculo de clientes ao plano'
     
     #info de cliente
+    name = fields.Char(string="Nome", compute="_compute_name", store=True)
     partner_id =fields.Many2one('res.partner',string ='Usuário', required = True)
     email_partner = fields.Char(related='partner_id.email', store=True)
     phone = fields.Char(related='partner_id.phone', store=True) #se o partner nao tem numero, nao mostra, no futuro adicionar um compute field.
@@ -51,6 +52,10 @@ class SubscriptionCustumer(models.Model):
 
 
 
+    @api.depends('partner_id')
+    def _compute_name(self):
+        for record in self:
+            record.name = record.partner_id.name if record.partner_id else f"Cliente {record.id}"
     
     @api.onchange('plan_id')
     def _onchange_plan_id(self):

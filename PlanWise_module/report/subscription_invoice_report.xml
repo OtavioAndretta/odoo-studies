@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+
+        <!-- Template do Report -->
+        <template id="report_subscription_invoice_document">
+            <t t-call="web.external_layout">
+                <main class="o_report_body">
+                    <t t-foreach="docs" t-as="doc">
+                        <h2 style="text-align:center">
+                            Fatura Nº <t t-esc="doc.invoice_number"/>
+                        </h2>
+                        <table class="table table-sm">
+                            <tr><td><strong>Cliente:</strong></td><td><t t-esc="doc.partner_id.name"/></td></tr>
+                            <tr><td><strong>Email:</strong></td><td><t t-esc="doc.partner_id.email"/></td></tr>
+                            <tr><td><strong>Plano:</strong></td><td><t t-esc="doc.plan_id.name"/></td></tr>
+                            <tr><td><strong>Data de Emissão:</strong></td><td><t t-esc="doc.emission_date"/></td></tr>
+                            <tr><td><strong>Vencimento:</strong></td><td><t t-esc="doc.expire_date"/></td></tr>
+                            <tr><td><strong>Valor:</strong></td><td>R$ <t t-esc="doc.price"/></td></tr>
+                            <tr><td><strong>Desconto:</strong></td><td><t t-esc="doc.discount_percent"/>%</td></tr>
+                            <tr><td><strong>Total com Desconto:</strong></td><td>R$ <t t-esc="doc.price_with_discount"/></td></tr>
+                            <tr><td><strong>Descrição:</strong></td><td><t t-esc="doc.description_invoice"/></td></tr>
+                        </table>
+                        <div style="page-break-after: always;"/>
+                    </t>
+                </main>
+            </t>
+        </template>
+
+        <!-- Definição do Report (Action) -->
+        <record id="action_report_subscription_invoice" model="ir.actions.report">
+            <field name="name">Fatura de Assinatura</field>
+            <field name="model">subscription.invoice</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">PlanWise_module.report_subscription_invoice_document</field>
+            <field name="report_file">PlanWise_module.report_subscription_invoice_document</field>
+            <field name="print_report_name">'Fatura_' + object.invoice_number</field>
+            <field name="binding_model_id" ref="model_subscription_invoice"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

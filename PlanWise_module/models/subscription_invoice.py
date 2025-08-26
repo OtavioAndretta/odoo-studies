@@ -9,6 +9,7 @@ class SubscriptionInvoice(models.Model):
     _description ='Gerador de faturas e afins'
 
     #relacionando com o cliente o modulo agora
+    name = fields.Char(string ='Nome da Fatura', compute ='_compute_name', store=  True)
     customer_id = fields.Many2one('subscription.costumer', string='Cliente', required=True)
     plan_id = fields.Many2one('subscription.plan', string='Plano', required=True)
     currency_id = fields.Many2one('res.currency', string='Moeda', default=lambda self: self.env.company.currency_id)
@@ -50,6 +51,18 @@ class SubscriptionInvoice(models.Model):
         ('positive_price','CHECK(price>=0)','O preço da fatura tem que ser maior que 0')
     ]
 
+    @api.depends('partner_id', 'invoice_number')
+    def _compute_name(self):
+        for record in self:
+            if record.partner_id and record.invoice_number:
+               record.name = f"{record.partner_id.name} - {record.invoice_number}"
+            elif record.partner_id:
+                record.name = record.partner_id.name
+            else:
+                record.name = f"Cliente {record.id}"
+
+
+
     @api.depends('price','discount_percent')
     def _compute_discount(self):
         for record in self:
@@ -64,8 +77,9 @@ class SubscriptionInvoice(models.Model):
         for record in self:
             if not 0 <= record.discount_percent <= 100:
                 raise ValidationError('O desconto deve estar entre 0 e 100%')
-    #validacao 50% automatica, porem no futuro quando eu tiver mais conhecimento, vou tentar integrar com alguma api, tipo stripe ou mercado pago, ou pagSeguro.
 
+
+    #validacao 50% automatica, porem no futuro quando eu tiver mais conhecimento, vou tentar integrar com alguma api, tipo stripe ou mercado pago, ou pagSeguro.
     @api.depends('state')
     def _compute_payment_date(self):
         for record in self:
@@ -106,13 +120,5 @@ class SubscriptionInvoice(models.Model):
             self.plan_id = self.customer_id.plan_id
 
     
-
-    def name_get(self):
-        result = []
-        for record in self:
-           partner_name = record.partner_id.name or "Cliente desconhecido"
-           invoice_number = record.invoice_number or "Sem número"
-           state_label = dict(self._fields['state'].selection).get(record.state, "Desconhecido")
-           name = f"{partner_name} - {invoice_number} [{state_label}]"
-           result.append((record.id, name))
-        return result
+    def print_report_subscription_invoice(self):
+        return self.env.ref('PlanWise_module.action_report_subscription_invoice').report_action(self)
