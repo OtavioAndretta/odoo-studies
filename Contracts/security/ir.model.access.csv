@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_contract_contract_user,Contrato - Usuário,model_contract_contract,base.group_user,1,1,1,1
+access_contract_payment_user,Pagamento - Usuário,model_contract_payment,base.group_user,1,1,1,1
+access_contract_renewal_user,Renovação - Usuário,model_contract_renewal,base.group_user,1,1,1,1
+access_contract_payment_installment_user,Parcela - Usuário,model_contract_payment_installment,base.group_user,1,1,1,1

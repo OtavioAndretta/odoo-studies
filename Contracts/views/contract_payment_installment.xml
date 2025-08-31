@@ -1,0 +1,92 @@
+<odoo>
+
+    <record id ='view_contract_payment_installment_tree' model ='ir.ui.view'>
+        <field name ='name'>contract.payment.installment.tree</field>
+        <field name ='model'>contract.payment.installment</field>
+        <field name ='arch' type ='xml'>
+            <tree string ='Parcelas'>
+                <field name ='name'/>
+                <field name ='contract_id'/>
+                <field name ='payment_id'/>
+                <field name ='installment_number'/>
+                <field name ='amount_installment'/>
+                <field name ='paid'/>
+                <field name ='payment_date'/>
+                <field name ='due_date'/>
+                <field name ='payment_method'/>
+                <field name ='state'/>
+                <field name ='is_late'/>
+                <field name ='days_late'/>
+                <field name ='note'/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record id ='view_contract_payment_installment_form' model ='ir.ui.view'>
+        <field name ='name'>contract.payment.installment.form</field>
+        <field name ='model'>contract.payment.installment</field>
+        <field name ='arch' type ='xml'>
+            <form string ='Parcela'>
+                <sheet>
+                    <group string ='Informações básicas'>
+                        <field name ='name'/>
+                        <field name ='contract_id'/>
+                        <field name ='payment_id'/>
+                    </group>
+                    <group string ='Financeiro'>
+                        <field name ='installment_number'/>
+                        <field name ='amount_installment'/>
+                        <field name ='paid'/>
+                        <field name ='payment_method'/>
+                    </group>
+                    <group string ='Datas'>
+                        <field name ='payment_date'/>
+                        <field name ='due_date'/>
+                        <field name ='days_late'/>
+                    </group>
+                    <group string ='Estado e notas'>
+                        <field name ='state'/>
+                        <field name ='is_late'/>
+                        <field name ='note'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id ='view_contract_payment_installment_search' model ='ir.ui.view'>
+        <field name ='name'>contract.payment.installment.search</field>
+        <field name ='model'>contract.payment.installment</field>
+        <field name ='arch' type ='xml'>
+            <search string ='Filtrar parcelas'>
+                <field name ='name'/>
+                <field name ='contract_id'/>
+                <field name ='payment_id'/>
+
+
+                <filter name ='state_open' string='Em aberto' domain = "[('state','=','open')]"/>
+                <filter name ='state_paid' string='Pago' domain = "[('state','=','paid')]"/>
+                <filter name ='state_cancelled' string='Cancelado' domain = "[('state','=','cancelled')]"/>
+
+                <filter name ='is_late' string='Atrasado' domain = "[('is_late','=','True')]"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id ='action_contract_payment_installment' model ='ir.actions.act_window'>
+
+        <field name ='name'>contract.payment.installment.actions</field>
+        <field name ='res_model'>contract.payment.installment</field>
+        <field name ='view_mode'>tree,list</field>
+        <field name ='search_view_id' rel ='view_contract_payment_installment_search'/>
+    </record>
+
+
+
+    <menuitem id ='menu_contract_installment' name ='Parcelas' parent ='menu_contract_root' sequence ='50'/>
+                    

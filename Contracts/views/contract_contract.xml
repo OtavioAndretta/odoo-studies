@@ -14,7 +14,7 @@
                 <field name="state"/>
                 <field name="auto_renew"/>
                 <field name="is_expired"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -31,6 +31,19 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,active,expired,renewed,cancelled"/>
                 </header>
                 <sheet>
+                        <notebook>
+                            <page string ='Renovações'>
+                                <field name ='renewal_ids'>
+                                    <list>
+                                        <field name ='previous_contract_id'/>
+                                        <field name ='renewal_date'/>
+                                        <field name ='user_id'/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+
+
                     <group string ='Informações básicas'>
                         <field name="name"/>
                         <field name="cliente"/>
@@ -51,9 +64,11 @@
                         <field name="is_expired" readonly="1"/>
                         <field name="state"/>
                     </group>
+
                     <group string ='Observações'>
                         <field name="observations"/>
                     </group>
+                    
                 </sheet>
             </form>
         </field>
@@ -66,8 +81,8 @@
         <field name ='model'>contract.contract</field>
         <field name ='arch' type ='xml'>
             <search string ='Pesquisar e filtrar contratos'>
-                <field name ='name'>
-                <field name ='cliente'>
+                <field name ='name'/>
+                <field name ='cliente'/>
 
             <group expand="0" string="Tipo de contrato">
                     <filter name="contract_type_prestacao" string="Prestação" domain="[('type_contract','=','prestacao')]"/>
@@ -90,20 +105,13 @@
     <record id ='action_contract_contract' model ='ir.actions.act_window'>
         <field name ='name'>Contratos</field>
         <field name ='res_model'>contract.contract</field>
-        <field name ='view_mode'>list,form</field>
+        <field name ='view_mode'>tree,form</field>
         <field name ='search_view_id' ref='view_contract_contract_search'/>
     </record>
 
     <menuitem id ='menu_contract_root' name ='Contratos' sequence ='10'/>
-
-
-
-
-
-
-
-
-
+    <!--Submenu pra gerenciar a classe contract.contract-->
+    <menuitem id="menu_contract_contract" name="Gerenciar Contratos" parent="menu_contract_root" action="action_contract_contract" sequence="20"/>
 
 
 

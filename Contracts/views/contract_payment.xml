@@ -1,0 +1,84 @@
+<odoo>
+
+    <record id ='view_contract_payment_tree' model ='ir.ui.view'>
+        <field name ='name'>contract.payment.tree</field>
+        <field name ='model'>contract.payment</field>
+        <field name ='arch' type ='xml'>
+            <tree string ='Pagamentos'>
+                <field name ='contract_id'/>
+                <field name ='start_date'/>
+                <field name ='end_date'/>
+                <field name ='payment_mode'/>
+                <field name ='installment_number'/>
+                <field name ='payment_method'/>
+                <field name ='observation'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id ='view_contract_payment_form' model ='ir.ui.view'>
+        <field name ='name'>contract.payment.form</field>
+        <field name ='model'>contract.payment</field>
+        <field name ='arch' type ='xml'>
+            <form string ='Pagamento'>
+                <sheet>
+                        <group string ='Informações básicas'>
+
+                            <field name ='name' readonly = '1'/>
+                            <field name ='contract_id'/>
+                        </group>
+
+                        <group string ='Datas'>
+                            <field name ='start_date'/>
+                            <field name ='end_date'/>
+                        </group>
+                        <group string ='Pagamento e parcelas'>
+                            <field name ='payment_mode'/>
+                            <field name ='installment_number'/>
+                            <field name ='payment_method'/>
+                            <field name ='installment_ids' readonly='1'/>
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id ='view_contract_payment_search' model = 'ir.ui.view'>
+        <field name ='name'>contract.payment.search</field>
+        <field name ='model'>contract.payment</field>
+        <field name ='arch' type ='xml'>
+            <search string ='Pesquisar pagamentos'>
+                <field name ='name'/>
+                <field name ='contract_id'/>
+
+
+                <filter name ='payment_mode_unique' string ='Pagamento único' domain ="[('payment_mode','=','unique')]"/>
+                <filter name ='payment_mode_installmental' string ='Pagamento parcelado' domain ="[('payment_mode','=','installmental')]"/>
+                <filter name ='payment_mode_scheduled' string ='Pagamento Agendado' domain ="[('payment_mode','=','scheduled')]"/>
+
+
+                <filter name ='payment_method_pix' string ='Pagamento por pix' domain ="[('payment_method','=','pix')]"/>
+                <filter name ='payment_method_boleto' string ='Pagamento por boleto' domain ="[('payment_method','=','boleto')]"/>
+                <filter name ='payment_method_card' string ='Pagamento por cartão' domain ="[('payment_method','=','card')]"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id ='action_contract_payment' model ='ir.actions.act_window'>
+        <field name ='name'>contract_payment_action</field>
+        <field name ='res_model'>contract_payment</field>
+        <field name ='view_mode'>tree,form</field>
+        <field name ='search_view_id' ref ='view_contract_payment_search'/>
+    </record>
+
+    <menuitem id ='menu_contract_payment' name ='Pagamentos' parent ='menu_contract_root' sequence ='40'/>
+
+
+
+                
+
+
+            

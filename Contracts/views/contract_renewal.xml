@@ -1,0 +1,56 @@
+<odoo>
+
+    <record id ='view_contract_renewal_tree' model ='ir.ui.view'>
+        <field name ='name'>contract.renewal.tree</field>
+        <field name ='model'>contract.renewal</field>
+        <field name ='arch' type ='xml'>
+            <tree string ='Renovações'>
+                <field name ='new_contract_id'/>
+                <field name ='previous_contract_id'/>
+                <field name ='renewal_date'/>
+                <field name ='user_id'/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id ='view_contract_renewal_form' model ='ir.ui.view'>
+        <field name ='name'>contract.renewal.form</field>
+        <field name ='model'>contract.renewal</field>
+        <field name ='arch' type ='xml'>
+            <form string ='Renovação'>
+                <sheet>
+                    <field name ='name'/>
+                    <field name ='new_contract_id'/>
+                    <field name ='previous_contract_id' readonly ='1'/>
+                    <field name ='renewal_date'/>
+                    <field name ='user_id'/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id='view_contract_renewal_search' model ='ir.ui.view'>
+        <field name ='name'>contract.renewal.search</field>
+        <field name ='model'>contract.renewal</field>
+        <field name ='arch' type ='xml'>
+            <search string ='Pesquisar e filtrar renovações'/>
+                <field name ='new_contract_id'/>
+                <field name ='previous_contract_id'/>
+                <field name ='renewal_date'/>
+            </search>
+        </field>
+    </record>
+
+    <record id ='action_contract_renewal' model ='ir.actions.act_window'>
+        <field name ='name'>Renovações</field>
+        <field name ='res_model'>contract.renewal</field>
+        <field name ='view_mode'>tree,form</field>
+        <field name ='search_view_id' ref ='view_contract_renewal_search'/>
+    </record>
+
+    <menuitem id ='menu_contract_renewal' name ='Renovações' parent ='menu_contract_root' sequence ='30'/>
+        
+
